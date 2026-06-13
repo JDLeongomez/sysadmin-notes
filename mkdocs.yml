@@ -1,0 +1,50 @@
+site_name: Notas de Sistema — JDL
+site_author: Juan David Leongómez
+site_description: Notas personales para administrar servidor Ubuntu y PC CachyOS
+
+theme:
+  name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - admonition
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Inicio: index.md
+  - CachyOS:
+    - Configuración: cachyos/configuracion.md
+  - Servidor Ubuntu:
+    - Shiny & RStudio: ubuntu-server/shiny-rstudio.md
+    - Open WebUI & Ollama: ubuntu-server/open-webui-ollama.md
+  - Herramientas:
+    - Subtítulos con IA: herramientas/subtitulos-ia.md
+  - Windows:
+    - Limpieza OneDrive: windows/onedrive-cleanup.md
