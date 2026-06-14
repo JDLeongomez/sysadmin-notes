@@ -1,6 +1,8 @@
 site_name: Notas de Sistema — JDL
 site_author: Juan David Leongómez
 site_description: Notas personales para administrar servidor Ubuntu y PC CachyOS
+repo_url: https://github.com/jdleongomez/sysadmin-notes
+repo_name: jdleongomez/sysadmin-notes
 
 theme:
   name: material
@@ -44,7 +46,3 @@ nav:
   - Servidor Ubuntu:
     - Shiny & RStudio: ubuntu-server/shiny-rstudio.md
     - Open WebUI & Ollama: ubuntu-server/open-webui-ollama.md
-  - Herramientas:
-    - Subtítulos con IA: herramientas/subtitulos-ia.md
-  - Windows:
-    - Limpieza OneDrive: windows/onedrive-cleanup.md
