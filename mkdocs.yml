@@ -43,6 +43,7 @@ nav:
   - Inicio: index.md
   - CachyOS:
     - Configuración: cachyos/configuracion.md
+    - Acer Aspire 7 — BIOS y arranque: cachyos/acer-aspire-bios.md
   - Servidor Ubuntu:
     - Shiny & RStudio: ubuntu-server/shiny-rstudio.md
     - Open WebUI & Ollama: ubuntu-server/open-webui-ollama.md
