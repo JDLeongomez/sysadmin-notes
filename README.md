@@ -8,6 +8,6 @@ Sitio: https://jdleongomez.github.io/sysadmin-notes/
 ## Desarrollo local
 
 ```bash
-pip install mkdocs-material
+pip install mkdocs-dracula-theme
 mkdocs serve
 ```
