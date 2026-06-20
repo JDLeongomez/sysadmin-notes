@@ -16,14 +16,11 @@ La BIOS tenía dos problemas combinados:
 
 1. Entrar a la BIOS pulsando `F2` al arrancar.
    - Contraseña de la BIOS: `1234`
-2. Deshabilitar **Secure Boot** (pestaña *Security* o *Boot*).
-3. Pulsar `Ctrl+S` para revelar las opciones ocultas de la BIOS (específico de Insyde).
+2. Deshabilitar **Secure Boot** (pestaña *Boot*).
+3. Pulsar `Ctrl+S` para revelar las opciones ocultas de la BIOS (pestaña *Main*).
 4. Cambiar **SATA Mode** de `RST Premium with Optane` → `AHCI`.
 5. Guardar con `F10` y reiniciar.
 
 ## Notas adicionales
 
 - El menú **GRUB** se activa manteniendo `Shift` o pulsando `Esc` durante el arranque.
-- Las **opciones avanzadas ocultas** de esta BIOS (Insyde H2O) se revelan con `Ctrl+S`.
-- Cambiar de RST a AHCI **rompe Windows**; no es problema si el disco es solo Linux.
-- **Fast Boot** también fue deshabilitado durante el proceso (recomendado para evitar problemas similares).
