@@ -5,7 +5,7 @@ repo_url: https://github.com/jdleongomez/sysadmin-notes
 repo_name: jdleongomez/sysadmin-notes
 
 theme:
-  name: material
+  name: dracula
   language: es
   palette:
     - scheme: default
