@@ -47,3 +47,5 @@ nav:
   - Servidor Ubuntu:
     - Shiny & RStudio: ubuntu-server/shiny-rstudio.md
     - Open WebUI & Ollama: ubuntu-server/open-webui-ollama.md
+  - Syncthing:
+      - Configuración: syncthing/configuracion.md
