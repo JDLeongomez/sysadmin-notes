@@ -10,3 +10,4 @@ Notas y comandos de referencia para administrar mis sistemas.
 | [Shiny & RStudio](ubuntu-server/shiny-rstudio.md) | Gestión del servidor Ubuntu con Shiny y RStudio Server |
 | [Open WebUI & Ollama](ubuntu-server/open-webui-ollama.md) | Servidor de IA local |
 | [Syncthing](syncthing/configuracion.md) | Sincronización de archivos entre equipos |
+| [UPS (apcupsd)](https://jdleongomez.github.io/sysadmin-notes/ubuntu-server/apcupsd/) | Apagado automático ante cortes de luz |
