@@ -25,8 +25,8 @@ http://127.0.0.1:8384
 ​```
 
 **Servidor (remoto, vía túnel SSH):**
-​```bash
-ssh -N -L 8385:127.0.0.1:8384 jdl@jdlserver
+​```
+ssh -N -L 8385:127.0.0.1:8384 jdl@192.168.1.17
 ​```
 Luego abrir `http://127.0.0.1:8385` en el navegador local.
 El `-N` evita que se abra un shell interactivo (que cierra el túnel si el shell termina).
