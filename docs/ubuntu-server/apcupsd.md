@@ -68,6 +68,6 @@ Menú interactivo para simular condiciones sin riesgo.
 
 ## Notas
 
-- Batería instalada: 2024-12-23 (vida útil esperada 2-5 años, revisar reemplazo ~2027-2029)
+- Batería instalada: 2026-08-03 (vida útil esperada 2-5 años, revisar reemplazo ~2028-2030)
 - Batería de repuesto: modelo RBC17
 - Consumo real del servidor: ~2% de carga del UPS (~9W), autonomía estimada >3 horas
