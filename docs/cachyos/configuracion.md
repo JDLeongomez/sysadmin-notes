@@ -87,7 +87,90 @@ install.packages("xml2")
 
 ---
 
-## 3. Fuentes
+## 3. Transparencia y apariencia de ventanas (Hyprland)
+
+Esto **no** se configura en Noctalia. Noctalia Shell (`~/.config/noctalia/config.toml`) solo
+controla la apariencia de la barra, el panel y los widgets; la transparencia, los bordes y el
+desenfoque de las ventanas los controla Hyprland directamente, en
+`~/.config/hypr/config/decorations.lua`:
+
+```lua
+hl.config({
+    general = {
+        gaps_in = 3,
+        gaps_out = 8,
+        border_size = 2,
+        col = {
+            active_border = { colors = { CACHYLGREEN, CACHYDGREEN }, angle = 45 },
+            inactive_border = CACHYGRAY,
+        },
+    },
+    decoration = {
+        rounding = 10,
+        active_opacity = 0.95,
+        inactive_opacity = 0.65,
+        fullscreen_opacity = 1,
+        blur = {
+            size = 5,
+            passes = 4,
+            special = true,
+        },
+    },
+})
+```
+
+- `decoration.active_opacity`: opacidad de la ventana con foco (1 = opaca, 0 = invisible).
+- `decoration.inactive_opacity`: opacidad de las ventanas sin foco (la que normalmente se quiere
+  bajar para distinguir cuál está activa).
+- `decoration.fullscreen_opacity`: opacidad en modo pantalla completa.
+- `decoration.rounding`: redondeo de esquinas.
+- `decoration.blur`: desenfoque del fondo detrás de ventanas transparentes (`size`, `passes`).
+- `general.border_size`, `general.gaps_in`, `general.gaps_out`: tamaño de borde y espacios entre
+  ventanas.
+- `general.col.active_border` / `inactive_border`: color del borde según foco.
+
+Después de editar y guardar el archivo, los cambios se aplican solos (Hyprland recarga la
+configuración Lua automáticamente). Si no se reflejan, forzar con:
+
+```bash
+hyprctl reload
+```
+
+### 3.1 Por qué la transparencia se ve distinta según la aplicación
+
+`active_opacity` / `inactive_opacity` no se ven igual en todas las aplicaciones porque dependen
+de si la ventana expone un canal alfa real al compositor:
+
+- **Aplicaciones con alfa real** (VSCodium, terminales como kitty): Hyprland puede mezclar de
+  verdad el fondo detrás de la ventana, así que se ve la transparencia **y** el desenfoque
+  (`blur`) tal como se configuraron.
+- **Aplicaciones sin alfa real** (p. ej. Tauon Music Box, que usa un renderizador propio en vez
+  de GTK, o GNOME Text Editor en GTK4/libadwaita): al no exponer un canal alfa, Hyprland no
+  tiene nada que mezclar detrás y solo puede simular la opacidad oscureciendo/aclarando los
+  píxeles ya renderizados de toda la ventana (texto e iconos por igual). Se ve "lavado" al
+  perder el foco, y sin ningún desenfoque real.
+- **Zen Browser** (y Firefox): no es una limitación técnica sino una regla explícita en
+  `windowrules.lua` que fuerza opacidad 1.0 para esas clases, porque los navegadores basados en
+  Gecko suelen tener artefactos visuales con transparencia real.
+
+Para evitar el efecto "lavado" en aplicaciones sin alfa real, se les fuerza opacidad 1.0 igual
+que a Zen/Firefox o a los reproductores de video, en
+`~/.config/hypr/config/windowrules.lua`:
+
+```lua
+hl.window_rule({ match = { class = "^(tauonmb|org\\.gnome\\.TextEditor)$" }, opacity = "1.0 override" })
+```
+
+Para agregar otra aplicación a esta lista, hay que conocer su `class` de ventana. Se obtiene con
+la sesión de Hyprland activa:
+
+```bash
+hyprctl clients | grep -B2 "class:"
+```
+
+---
+
+## 4. Fuentes
 
 Las fuentes de usuario se guardan en `/usr/local/share/fonts` (requiere `sudo`).
 
