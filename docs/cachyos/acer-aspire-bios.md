@@ -1,4 +1,10 @@
+---
+icon: simple/archlinux
+---
+
 # Acer Aspire 7 (A715-74G-75UE) — Problemas de arranque en CachyOS
+
+![CachyOS](../assets/logos/cachyos.svg){ width="64" align="right" }
 
 ## Síntomas
 

@@ -10,10 +10,8 @@ theme:
   palette:
     - scheme: dracula
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.top
-    - toc.integrate
     - search.highlight
     - search.suggest
     - content.code.copy
@@ -22,6 +20,10 @@ extra_css:
   - stylesheets/dracula.css
 
 markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.superfences
@@ -35,6 +37,8 @@ nav:
   - Inicio: index.md
   - Linux:
     - Comandos: linux/comandos.md
+    - "Gestión de paquetes: pacman": linux/pacman.md
+    - "Gestión de paquetes: apt/nala": linux/apt-nala.md
   - CachyOS:
     - Configuración: cachyos/configuracion.md
     - Acer Aspire 7 — BIOS y arranque: cachyos/acer-aspire-bios.md

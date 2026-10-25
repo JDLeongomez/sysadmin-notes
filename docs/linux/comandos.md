@@ -1,4 +1,10 @@
+---
+icon: simple/linux
+---
+
 # Comandos de Linux
+
+![Tux](../assets/logos/tux.svg){ width="72" align="right" }
 
 Referencia organizada por tarea (no alfabética), para encontrar el comando según lo que
 se quiere lograr, aunque no se recuerde su nombre. El menú lateral de esta página sigue
@@ -396,43 +402,7 @@ comandos.
 
 ---
 
-## 10. Gestión de paquetes: `pacman` (CachyOS)
-
-| Acción | Comando | Notas |
-| --- | --- | --- |
-| Instalar un paquete | `sudo pacman -S paquete` | |
-| Actualizar todo el sistema | `sudo pacman -Syu` | Siempre actualizar el sistema completo, nunca solo un paquete suelto (`pacman -Syu` sin exclusiones) para evitar romper dependencias. |
-| Buscar un paquete | `pacman -Ss nombre` | Busca en los repositorios remotos. |
-| Ver si un paquete está instalado | `pacman -Qs nombre` | Busca entre los paquetes ya instalados localmente. |
-| Ver información de un paquete | `pacman -Qi paquete` (instalado) / `pacman -Si paquete` (remoto) | |
-| Ver qué archivos instaló un paquete | `pacman -Ql paquete` | |
-| Eliminar un paquete | `sudo pacman -R paquete` | |
-| Eliminar un paquete y sus dependencias no usadas por nadie más | `sudo pacman -Rns paquete` | |
-| Eliminar dependencias huérfanas (de paquetes ya desinstalados) | `sudo pacman -Rns $(pacman -Qtdq)` | `-Qtdq` lista esas dependencias huérfanas. |
-| Limpiar la caché de paquetes descargados | `sudo pacman -Sc` | Borra versiones viejas en caché; `-Scc` las borra todas, incluida la versión actual. |
-
----
-
-## 11. Gestión de paquetes: `apt` y `nala` (Ubuntu Server 24.04)
-
-`nala` es un envoltorio sobre `apt` con una interfaz más clara (resume cambios, muestra
-descargas en paralelo) y la misma sintaxis básica de subcomandos.
-
-| Acción | `apt` | `nala` |
-| --- | --- | --- |
-| Actualizar la lista de paquetes disponibles | `sudo apt update` | `sudo nala update` |
-| Actualizar todos los paquetes instalados | `sudo apt upgrade` | `sudo nala upgrade` |
-| Instalar un paquete | `sudo apt install paquete` | `sudo nala install paquete` |
-| Eliminar un paquete | `sudo apt remove paquete` | `sudo nala remove paquete` |
-| Eliminar un paquete y su configuración | `sudo apt purge paquete` | `sudo nala purge paquete` |
-| Eliminar dependencias que ya nadie usa | `sudo apt autoremove` | `sudo nala autoremove` |
-| Buscar un paquete | `apt search nombre` | `nala search nombre` |
-| Ver información de un paquete | `apt show paquete` | `nala show paquete` |
-| Ver historial de instalaciones/cambios | — | `nala history` |
-
----
-
-## 12. Documentación de comandos
+## 10. Documentación de comandos
 
 ### `man`
 
@@ -442,3 +412,4 @@ Muestra el manual completo de un comando (`man comando`). `q` para salir.
 
 La mayoría de comandos aceptan `--help` (o `-h`) para un resumen rápido de sus opciones, más
 corto que el manual completo.
+

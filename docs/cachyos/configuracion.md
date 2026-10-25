@@ -1,4 +1,10 @@
+---
+icon: simple/archlinux
+---
+
 # CachyOS + Noctalia — Configuración
+
+![CachyOS](../assets/logos/cachyos.svg){ width="64" align="right" }
 
 ## 1. Pantalla de inicio de sesión (greetd + Noctalia Greeter)
 

@@ -1,4 +1,10 @@
+---
+icon: simple/ubuntu
+---
+
 # UPS — APC Back-UPS BE850M2 (apcupsd)
+
+![Ubuntu](../assets/logos/ubuntu.svg){ width="64" align="right" }
 
 UPS conectado por USB al servidor para apagado automático en cortes de luz largos.
 Modelo: APC Back-UPS BE850M2, 850VA / 450W.

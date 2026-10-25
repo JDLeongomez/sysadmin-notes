@@ -1,4 +1,10 @@
+---
+icon: simple/ubuntu
+---
+
 # Shiny Server & RStudio Server
+
+![Ubuntu](../assets/logos/ubuntu.svg){ width="64" align="right" }
 
 Referencia: <https://www.digitalocean.com/community/tutorials/how-to-set-up-shiny-server-on-ubuntu-20-04>
 

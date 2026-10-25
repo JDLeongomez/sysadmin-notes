@@ -1,4 +1,10 @@
+---
+icon: simple/syncthing
+---
+
 # Syncthing
+
+![Syncthing](../assets/logos/syncthing.svg){ width="64" align="right" }
 
 Sincronización de archivos entre PC (CachyOS), laptop (CachyOS) y servidor (Ubuntu),
 usando el servidor como puente ya que PC y laptop nunca están encendidos al mismo tiempo.

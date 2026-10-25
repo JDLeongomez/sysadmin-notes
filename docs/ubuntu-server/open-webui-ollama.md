@@ -1,4 +1,10 @@
+---
+icon: simple/ubuntu
+---
+
 # Open WebUI & Ollama
+
+![Ubuntu](../assets/logos/ubuntu.svg){ width="64" align="right" }
 
 ---
 
