@@ -5,21 +5,10 @@ repo_url: https://github.com/jdleongomez/sysadmin-notes
 repo_name: jdleongomez/sysadmin-notes
 
 theme:
-  name: dracula
+  name: material
   language: es
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: Modo oscuro
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: Modo claro
+    - scheme: dracula
   features:
     - navigation.tabs
     - navigation.sections
@@ -28,6 +17,9 @@ theme:
     - search.highlight
     - search.suggest
     - content.code.copy
+
+extra_css:
+  - stylesheets/dracula.css
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -41,6 +33,8 @@ markdown_extensions:
 
 nav:
   - Inicio: index.md
+  - Linux:
+    - Comandos: linux/comandos.md
   - CachyOS:
     - Configuración: cachyos/configuracion.md
     - Acer Aspire 7 — BIOS y arranque: cachyos/acer-aspire-bios.md

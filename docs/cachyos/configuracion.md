@@ -1,39 +1,70 @@
-# CachyOS + HyDE Project — Configuración
+# CachyOS + Noctalia — Configuración
 
-## 1. SDDM login screen
+## 1. Pantalla de inicio de sesión (greetd + Noctalia Greeter)
 
-### 1.1 Tema
+El login ya no usa SDDM, sino `greetd` con `noctalia-greeter`
+(ver `/etc/greetd/config.toml`, `command = "/usr/bin/noctalia-greeter-session"`).
 
-Ver <https://github.com/HyDE-Project/HyDE/discussions/998>.
+### 1.1 Tema y fondo de pantalla
 
-Archivo de configuración: `/etc/sddm/conf.d/the_hyde_project.conf`
+Noctalia Greeter sincroniza automáticamente el fondo de pantalla y la paleta de colores
+desde Noctalia Shell. Esto se controla en `~/.config/noctalia/config.toml`:
 
-Seleccionar por ejemplo `Corners`:
-
-```ini
-[Theme]
-Current=Corners
+```toml
+[shell.greeter_sync]
+auto_sync = true
 ```
 
-Para cambiar el fondo de pantalla, guardar la imagen en `/usr/share/sddm/themes/Corners/backgrounds/`
-y editar `/usr/share/sddm/themes/Corners/theme.conf`:
+Con `auto_sync = true`, no hay que configurar nada aparte en el greeter: el fondo de
+pantalla que se defina desde Noctalia Shell (guardado en `~/.local/state/noctalia/settings.toml`,
+sección `[wallpaper]`) se aplica también en la pantalla de login.
 
-```ini
-[General]
-Background="backgrounds/your_image.jpg"
+`greeter_sync` solo sincroniza fondo de pantalla y paleta de colores. **No** sincroniza el
+avatar: ese se maneja aparte (ver 1.2).
+
+### 1.2 Imagen de perfil de usuario (avatar)
+
+Hay dos avatares independientes que mantener sincronizados, cada uno con su propia fuente:
+
+**Noctalia Shell** (el que se ve dentro de la sesión, panel, bloqueo, etc.) lee la ruta
+definida en `~/.config/noctalia/config.toml`:
+
+```toml
+[shell]
+avatar_path = "~/Pictures/Fotos Perfil/avatar.jpg"
 ```
 
-### 1.2 Imagen de perfil de usuario
-
-Guardar la imagen en `/usr/share/sddm/faces/` con el nombre de usuario, por ejemplo `jdl.face.icon`,
-y ajustar permisos:
+**Noctalia Greeter** (la pantalla de login) no lee esta ruta: obtiene la foto vía D-Bus de
+AccountsService, propiedad `IconFile`, que ya está configurada para apuntar a
+`/var/lib/AccountsService/icons/jdl`. Como ese directorio es de `root` y mi usuario no
+pertenece al grupo `root`, hace falta `sudo` para sobrescribir el archivo (no hace falta
+tocar `IconFile`, solo reemplazar el contenido):
 
 ```bash
-sudo chown root:root /usr/share/sddm/faces/jdl.face.icon
-sudo chmod 644 /usr/share/sddm/faces/jdl.face.icon
+sudo cp ~/"Pictures/Fotos Perfil/avatar.jpg" /var/lib/AccountsService/icons/jdl
+sudo chown root:root /var/lib/AccountsService/icons/jdl
+sudo chmod 644 /var/lib/AccountsService/icons/jdl
 ```
 
-### 1.3 zsh prompt
+Es decir, para cambiar la foto de perfil en todas partes hay que: 
+
+1. reemplazar `/home/jdl/Pictures/Fotos Perfil/avatar.jpg` (actualiza Noctalia Shell)
+2. correr el bloque de arriba (actualiza el Greeter).
+
+### 1.3 Si los cambios no se reflejan en el login
+
+El `auto_sync` de 1.1 no siempre se dispara al instante. Si el fondo, la paleta o el avatar
+no aparecen actualizados en la pantalla de login:
+
+```bash
+# Forzar que el greeter vuelva a aplicar la apariencia actual
+noctalia-greeter-apply-appearance
+
+# o, si eso no basta, reiniciar el greeter (cierra la sesión de login, no la de usuario)
+sudo systemctl restart greetd.service
+```
+
+### 1.4 zsh prompt
 
 Configuración en `/usr/share/oh-my-zsh/zshrc`.
 
