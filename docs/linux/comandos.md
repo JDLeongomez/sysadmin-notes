@@ -413,3 +413,45 @@ Muestra el manual completo de un comando (`man comando`). `q` para salir.
 La mayoría de comandos aceptan `--help` (o `-h`) para un resumen rápido de sus opciones, más
 corto que el manual completo.
 
+---
+
+## 11. Monitores y pantallas
+
+### `xrandr`
+
+Lista y configura las pantallas conectadas (resolución, posición, orientación). Es una
+herramienta de X11, así que en una sesión Wayland (como esta) corre contra Xwayland y muestra
+una advertencia al respecto, pero sigue sirviendo para **ver** qué pantallas están conectadas
+y su nombre de conector (`eDP-1` para el panel del laptop, `HDMI-A-1`/`DP-1` para externos).
+
+```bash
+xrandr --listmonitors   # resumen: cuántas pantallas y sus nombres
+xrandr                  # detalle: todas las resoluciones que soporta cada pantalla
+```
+
+- `--listmonitors`: lista corta, una línea por pantalla activa.
+- Sin opciones: lista todas las pantallas (conectadas o no) con todas sus resoluciones
+  soportadas; la que tiene `*` al lado es la resolución activa, la que tiene `+` es la
+  preferida/nativa.
+
+Para cambiar algo (en vez de solo consultar) hace falta `--output NOMBRE` con la opción
+deseada, por ejemplo `xrandr --output HDMI-A-1 --primary`. En Wayland esos cambios no siempre
+se aplican al compositor real (solo a Xwayland); conviene usar la herramienta propia del
+compositor (p.ej. `wlr-randr`, o la configuración de Hyprland/niri) para configurar pantallas
+de la sesión gráfica real.
+
+### `hwinfo --monitor`
+
+Muestra información detallada de los monitores detectados vía EDID (el identificador que
+envía cada pantalla): marca, modelo, tamaño físico, año de fabricación y todas las
+resoluciones/frecuencias soportadas. A diferencia de `xrandr`, no depende de X11/Wayland ni
+necesita una sesión gráfica activa, y no indica qué conector (`eDP-1`, `HDMI-A-1`, etc.) usa
+cada pantalla.
+
+```bash
+hwinfo --monitor
+```
+
+Útil para identificar el modelo exacto de una pantalla (ej. al buscar drivers o perfiles de
+color) cuando `xrandr` solo da el nombre genérico del conector.
+

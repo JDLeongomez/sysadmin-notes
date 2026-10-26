@@ -57,6 +57,25 @@ Es decir, para cambiar la foto de perfil en todas partes hay que:
 1. reemplazar `/home/jdl/Pictures/Fotos Perfil/avatar.jpg` (actualiza Noctalia Shell)
 2. correr el bloque de arriba (actualiza el Greeter).
 
+**Si el avatar no aparece en el greeter aunque el archivo esté bien:** la propiedad
+`IconFile` de AccountsService puede no estar apuntando a
+`/var/lib/AccountsService/icons/jdl` (p.ej. puede haber quedado en el valor por defecto
+`~/.face`, que además no es legible por el greeter porque `/home/jdl` tiene permisos `700`).
+Verificar y corregir:
+
+```bash
+# ver a qué archivo apunta IconFile actualmente
+busctl --system get-property org.freedesktop.Accounts /org/freedesktop/Accounts/User$(id -u) \
+  org.freedesktop.Accounts.User IconFile
+
+# si no apunta a /var/lib/AccountsService/icons/jdl, corregirlo (no requiere sudo)
+busctl --system call org.freedesktop.Accounts /org/freedesktop/Accounts/User$(id -u) \
+  org.freedesktop.Accounts.User SetIconFile s /var/lib/AccountsService/icons/jdl
+```
+
+Este cambio lo guarda `accounts-daemon` de forma persistente, así que no debería hacer
+falta repetirlo salvo que algo vuelva a resetear la propiedad.
+
 ### 1.3 Si los cambios no se reflejan en el login
 
 El `auto_sync` de 1.1 no siempre se dispara al instante. Si el fondo, la paleta o el avatar
@@ -70,7 +89,54 @@ noctalia-greeter-apply-appearance
 sudo systemctl restart greetd.service
 ```
 
-### 1.4 zsh prompt
+### 1.4 Mostrar el greeter en un solo monitor
+
+Por defecto el greeter (el compositor propio de `noctalia-greeter`) dibuja en **todas** las
+pantallas conectadas. Esto importa sobre todo en equipos con varios monitores (por ejemplo un
+desktop con dos monitores y una TV): hay que decidir en cuál de todos se quiere que aparezca
+el login y fijarlo ("pin") explícitamente, porque el greeter no sabe cuál es "el principal"
+de la sesión normal.
+
+**Paso 1 — identificar el nombre de conector de cada pantalla en ese equipo específico**
+(estos nombres los asigna el kernel/DRM y varían de un equipo a otro, incluso con el mismo
+tipo de cable — en un desktop con dos monitores y una TV podrían ser, por ejemplo, `DP-1`,
+`DP-2` y `HDMI-A-1`):
+
+```bash
+xrandr --listmonitors
+```
+
+(ver también [docs/linux/comandos.md](../linux/comandos.md#11-monitores-y-pantallas)).
+
+**Paso 2 — fijar en `greeter.toml`** el nombre de conector elegido para *ese* equipo (acá
+`NOMBRE-DEL-CONECTOR` es el valor que dio `xrandr` en el paso 1, no un placeholder literal):
+
+```bash
+sudo mkdir -p /var/lib/noctalia-greeter
+sudoedit /var/lib/noctalia-greeter/greeter.toml
+```
+
+Agregar (o completar si ya existe una sección `[output]`):
+
+```toml
+[output]
+name = "NOMBRE-DEL-CONECTOR"
+```
+
+Luego reiniciar el greeter para que tome el cambio (ver 1.3):
+
+```bash
+sudo systemctl restart greetd.service
+```
+
+Si ese conector no está conectado en el próximo arranque, el log del greeter avisa
+`output 'NOMBRE-DEL-CONECTOR' not connected; using all outputs` y vuelve a mostrarse en todas
+las pantallas (no se queda con pantalla negra).
+
+En el [Acer Aspire 7](acer-aspire-bios.md) (un solo monitor externo conectado por HDMI) el
+valor configurado es `HDMI-A-1` (el panel interno del laptop es `eDP-1`).
+
+### 1.5 zsh prompt
 
 Configuración en `/usr/share/oh-my-zsh/zshrc`.
 
