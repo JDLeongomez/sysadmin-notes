@@ -1,0 +1,73 @@
+/* Paleta Dracula (https://draculatheme.com) aplicada al tema Material.
+ *
+ * Material fija el atributo data-md-color-scheme en <body>, no en <html>.
+ * Varias variables (--md-typeset-color, --md-code-hl-comment-color, etc.)
+ * están definidas en Material solo dentro de la regla ":root,[data-md-color-
+ * scheme=default]" como un var() que apunta a otra variable; como ":root"
+ * siempre coincide con <html>, ese var() se resuelve ahí con los colores
+ * claros por defecto y ya no se puede sobreescribir solo con --md-default-
+ * fg-color en <body>. Por eso aquí se repiten explícitamente todas las
+ * variables derivadas (tal como hace Material mismo para su esquema
+ * "slate"), no solo las variables base.
+ */
+
+[data-md-color-scheme="dracula"] {
+  color-scheme: dark;
+
+  --md-default-fg-color:            #f8f8f2d9;
+  --md-default-fg-color--light:     #f8f8f2a6;
+  --md-default-fg-color--lighter:   #f8f8f254;
+  --md-default-fg-color--lightest:  #f8f8f21f;
+  --md-default-bg-color:            #282a36;
+  --md-default-bg-color--light:     #282a3689;
+  --md-default-bg-color--lighter:   #282a3642;
+  --md-default-bg-color--lightest:  #282a3612;
+
+  --md-primary-fg-color:            #bd93f9;
+  --md-primary-fg-color--light:     #d6acff;
+  --md-primary-fg-color--dark:      #9580ff;
+  --md-primary-bg-color:            #282a36;
+  --md-primary-bg-color--light:     #282a36b3;
+
+  --md-accent-fg-color:             #ff79c6;
+  --md-accent-fg-color--transparent: #ff79c61a;
+  --md-accent-bg-color:             #282a36;
+  --md-accent-bg-color--light:      #282a36b3;
+
+  --md-code-fg-color:               #f8f8f2d9;
+  --md-code-bg-color:               #21222c;
+  --md-code-bg-color--light:        #21222ce6;
+  --md-code-bg-color--lighter:      #21222c89;
+
+  --md-code-hl-color:               #bd93f94d;
+  --md-code-hl-color--light:        #bd93f91a;
+  --md-code-hl-number-color:        #bd93f9;
+  --md-code-hl-special-color:       #ff5555;
+  --md-code-hl-function-color:      #50fa7b;
+  --md-code-hl-constant-color:      #bd93f9;
+  --md-code-hl-keyword-color:       #ff79c6;
+  --md-code-hl-string-color:        #f1fa8c;
+  --md-code-hl-name-color:          var(--md-code-fg-color);
+  --md-code-hl-operator-color:      #ff79c6;
+  --md-code-hl-punctuation-color:   var(--md-default-fg-color--light);
+  --md-code-hl-comment-color:       #6272a4;
+  --md-code-hl-generic-color:       var(--md-default-fg-color--light);
+  --md-code-hl-variable-color:      var(--md-default-fg-color);
+
+  --md-typeset-color:               var(--md-default-fg-color);
+  --md-typeset-a-color:             #8be9fd;
+  --md-typeset-kbd-color:           #44475a66;
+  --md-typeset-kbd-accent-color:    #44475a99;
+  --md-typeset-kbd-border-color:    #191a21;
+  --md-typeset-mark-color:          #f1fa8c4d;
+  --md-typeset-table-color:         #44475a66;
+  --md-typeset-table-color--light:  #44475a26;
+
+  --md-admonition-fg-color:         var(--md-default-fg-color);
+  --md-admonition-bg-color:         #21222c;
+
+  --md-footer-bg-color:             #21222cde;
+  --md-footer-bg-color--dark:       #191a21;
+  --md-footer-fg-color:             #f8f8f2;
+  --md-footer-fg-color--light:      #f8f8f2a6;
+}
