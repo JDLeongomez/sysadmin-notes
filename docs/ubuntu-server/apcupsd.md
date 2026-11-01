@@ -2,60 +2,60 @@
 icon: simple/ubuntu
 ---
 
-# UPS — APC Back-UPS BE850M2 (apcupsd)
+# UPS: APC Back-UPS BE850M2 (apcupsd)
 
 ![Ubuntu](../assets/logos/ubuntu.svg){ width="64" align="right" }
 
 UPS conectado por USB al servidor para apagado automático en cortes de luz largos.
 Modelo: APC Back-UPS BE850M2, 850VA / 450W.
 
-## Instalación
+## 1. Instalación
 
-​```bash
+```bash
 sudo apt update && sudo apt install apcupsd
-​```
+```
 
-## Configuración
+## 2. Configuración
 
 Verificar que apcupsd esté habilitado en `/etc/default/apcupsd`:
 
-​```
+```
 ISCONFIGURED=yes
-​```
+```
 
 En `/etc/apcupsd/apcupsd.conf`:
 
-​```
+```
 UPSCABLE usb
 UPSTYPE usb
 DEVICE
-​```
+```
 
 **Importante:** `DEVICE` debe quedar vacío con `UPSTYPE usb` (autodetección).
 Por defecto el archivo trae `/dev/ttyS0`, que es para conexión serial, no USB. Hay que borrarlo.
 
 Umbrales de apagado:
 
-​```
+```
 BATTERYLEVEL 5
 MINUTES 3
 TIMEOUT 0
-​```
+```
 
 Apaga cuando la batería llegue a 5% o queden menos de 3 minutos estimados, lo que ocurra primero.
 
-## Aplicar cambios
+## 3. Aplicar cambios
 
-​```bash
+```bash
 sudo systemctl restart apcupsd
 sudo systemctl enable apcupsd
-​```
+```
 
-## Verificar estado
+## 4. Verificar estado
 
-​```bash
+```bash
 apcaccess status
-​```
+```
 
 Campos clave:
 
@@ -64,15 +64,15 @@ Campos clave:
 - `TIMELEFT`: minutos de autonomía estimados
 - `LOADPCT`: porcentaje de carga del UPS en uso (consumo real del servidor)
 
-## Probar sin desconectar
+## 5. Probar sin desconectar
 
-​```bash
+```bash
 sudo apctest
-​```
+```
 
 Menú interactivo para simular condiciones sin riesgo.
 
-## Notas
+## 6. Notas
 
 - Batería instalada: 2026-08-03 (vida útil esperada 2-5 años, revisar reemplazo ~2028-2030)
 - Batería de repuesto: modelo RBC17

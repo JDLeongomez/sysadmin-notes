@@ -1,8 +1,8 @@
 ---
-icon: simple/archlinux
+icon: custom/cachyos
 ---
 
-# CachyOS + Noctalia — Configuración
+# CachyOS + Noctalia: configuración
 
 ![CachyOS](../assets/logos/cachyos.svg){ width="64" align="right" }
 
@@ -106,7 +106,7 @@ tipo de cable — en un desktop con dos monitores y una TV podrían ser, por eje
 xrandr --listmonitors
 ```
 
-(ver también [docs/linux/comandos.md](../linux/comandos.md#11-monitores-y-pantallas)).
+(ver también [docs/linux/comandos.md](../linux/comandos.md#12-monitores-y-pantallas)).
 
 **Paso 2 — fijar en `greeter.toml`** el nombre de conector elegido para *ese* equipo (acá
 `NOMBRE-DEL-CONECTOR` es el valor que dio `xrandr` en el paso 1, no un placeholder literal):
@@ -140,8 +140,6 @@ valor configurado es `HDMI-A-1` (el panel interno del laptop es `eDP-1`).
 
 Configuración en `/usr/share/oh-my-zsh/zshrc`.
 
----
-
 ## 2. Paquetes de R
 
 Con frecuencia hay problemas al instalar paquetes como `xml2`. Esto funciona:
@@ -150,8 +148,6 @@ Con frecuencia hay problemas al instalar paquetes como `xml2`. Esto funciona:
 Sys.unsetenv(c("INCLUDE_DIR", "LIB_DIR", "PKG_CFLAGS", "PKG_LIBS"))
 install.packages("xml2")
 ```
-
----
 
 ## 3. Transparencia y apariencia de ventanas (Hyprland)
 
@@ -234,8 +230,6 @@ la sesión de Hyprland activa:
 hyprctl clients | grep -B2 "class:"
 ```
 
----
-
 ## 4. Fuentes
 
 Las fuentes de usuario se guardan en `/usr/local/share/fonts` (requiere `sudo`).
@@ -250,3 +244,95 @@ sudo fc-cache -f -v
 - `-r` copia carpetas recursivamente
 - Las llaves `{}` expanden múltiples nombres en un solo comando
 - `fc-cache` obliga al sistema a reconocer las nuevas fuentes
+
+## 5. Botones de ventana en apps GTK4/libadwaita
+
+**Síntoma:** GNOME Text Editor (y cualquier app GTK4/libadwaita) a veces mostraba los botones
+de minimizar, maximizar y cerrar, y a veces no.
+
+**Causa:** depende del estado de la ventana en Hyprland. En mosaico, libadwaita oculta el
+widget `windowcontrols`; en flotante, lo dibuja. El ajuste
+`org.gnome.desktop.wm.preferences button-layout` (aquí `'appmenu:close'`) no influye en esto.
+
+**Solución:** al final de `~/.config/gtk-4.0/gtk.css`, después de `@import url("noctalia.css");`,
+hay una regla que oculta siempre esos controles:
+
+```css
+/* Oculta siempre los controles de ventana CSD (min/max/cerrar),
+   sin importar el estado flotante/mosaico en Hyprland. */
+windowcontrols,
+windowcontrols > button {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+```
+
+- Noctalia regenera `noctalia.css` al cambiar de tema, pero no toca `gtk.css`, así que la regla
+  se mantiene. Si los botones vuelven a aparecer (por ejemplo, tras reinstalar un tema GTK),
+  verificar con `grep windowcontrols ~/.config/gtk-4.0/gtk.css` que la regla siga al final.
+- No hace falta reiniciar: GTK4 lee `gtk.css` al crear cada ventana nueva.
+- Afecta a todas las apps GTK4. Para ocultarlos solo en una app, acotar el selector
+  (por ejemplo, `window.org-gnome-TextEditor windowcontrols`).
+- En la época de HyDE, la regla también debía ir en la plantilla de wallbash
+  (`~/.local/share/wallbash/theme/gtk/gtk4.dcol`), porque wallbash regeneraba `gtk.css`.
+  Con Noctalia ya no es necesario.
+
+## 6. Inactividad: bloqueo, apagado de pantalla y suspensión
+
+Configurado en Noctalia, en Settings → Power → Idle (se guarda en la sección `[idle]` de
+`~/.local/state/noctalia/settings.toml`):
+
+| Acción | Tiempo |
+| --- | --- |
+| `lock` (bloquear) | 60 s |
+| `screen-off` (apagar pantalla) | 70 s |
+| `suspend` (suspender) | 600 s |
+
+- **El bloqueo siempre va antes que el apagado de pantalla.** Si `screen-off` ocurre primero,
+  hyprlock enciende el monitor para mostrar la contraseña y nada lo vuelve a apagar.
+- **Desvanecido previo:** antes de cada acción, Noctalia muestra una capa negra con
+  desvanecido (`pre_action_fade_seconds`, 2 s por defecto). Parecía que el monitor se
+  apagaba a los 60 s y se volvía a encender al bloquear, pero era solo esa capa. Se desactivó
+  con `pre_action_fade_seconds = 0` (control "Pre-action fade" en la misma pantalla).
+- **Suspensión sin bloqueo previo:** la acción `suspend` tiene `lock_before_suspend = false`.
+  Es seguro porque a los 600 s la sesión ya lleva 9 minutos bloqueada. Si algún día el
+  bloqueo se sube a un tiempo cercano o mayor que la suspensión, activar esa opción.
+
+Para revisar qué acciones registró Noctalia y en qué orden:
+
+```bash
+grep -i "idle" ~/.cache/noctalia/noctalia.log | tail -30
+```
+
+## 7. Restos de HyDE: `HYPRLAND_CONFIG` apuntaba a la configuración vieja
+
+**Síntoma (tras migrar de HyDE a Noctalia):** `HYPRLAND_CONFIG` seguía apuntando a
+`~/.local/share/hypr/hyprland.conf` (la configuración de HyDE) en vez de
+`~/.config/hypr/hyprland.lua`, incluso después de reiniciar.
+
+**Causa:** HyDE dejó el archivo `~/.config/uwsm/env-hyprland.d/00-hyde.sh` con una asignación
+directa de `HYPRLAND_CONFIG`. uwsm carga ese archivo después de `~/.config/uwsm/env-hyprland`
+(que tiene el valor correcto), así que el de HyDE siempre ganaba.
+
+**Solución:** en `00-hyde.sh` se borró la línea `HYPRLAND_CONFIG=...` y se quitó
+`HYPRLAND_CONFIG` de la lista del `export`. El valor correcto queda definido solo en
+`~/.config/uwsm/env-hyprland`:
+
+```bash
+export HYPRLAND_CONFIG=/home/jdl/.config/hypr/hyprland.lua
+```
+
+Verificación (tras cerrar sesión y volver a entrar):
+
+```bash
+systemctl --user show-environment | grep HYPRLAND_CONFIG
+```
+
+Si alguna variable de entorno de la sesión no toma el valor esperado, revisar primero
+`~/.config/uwsm/env-hyprland.d/`, porque ahí pueden quedar más restos de HyDE.

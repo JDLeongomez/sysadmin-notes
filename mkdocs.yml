@@ -6,6 +6,7 @@ repo_name: jdleongomez/sysadmin-notes
 
 theme:
   name: material
+  custom_dir: overrides
   language: es
   palette:
     - scheme: dracula
@@ -24,6 +25,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.superfences
@@ -41,11 +45,12 @@ nav:
     - "Gestión de paquetes: apt/nala": linux/apt-nala.md
   - CachyOS:
     - Configuración: cachyos/configuracion.md
-    - Acer Aspire 7 — BIOS y arranque: cachyos/acer-aspire-bios.md
+    - "Acer Aspire 7: BIOS y arranque": cachyos/acer-aspire-bios.md
     - Hyprland multimonitor: cachyos/hyprland-multimonitor.md
+    - Tauon Music Box: cachyos/tauon.md
   - Servidor Ubuntu:
     - Shiny & RStudio: ubuntu-server/shiny-rstudio.md
     - Open WebUI & Ollama: ubuntu-server/open-webui-ollama.md
     - UPS (apcupsd): ubuntu-server/apcupsd.md
   - Syncthing:
-      - Configuración: syncthing/configuracion.md
+    - Configuración: syncthing/configuracion.md

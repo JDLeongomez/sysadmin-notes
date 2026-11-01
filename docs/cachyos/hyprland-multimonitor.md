@@ -1,8 +1,10 @@
 ---
-icon: simple/archlinux
+icon: simple/hyprland
 ---
 
 # Multimonitor en Hyprland + Noctalia
+
+![Hyprland](../assets/logos/hyprland.svg){ width="64" align="right" }
 
 Dos guías cortas para la misma configuración (Hyprland con config en **Lua**, Noctalia):
 cómo se reparten los workspaces entre monitores, y cómo cambiar rápido entre
@@ -13,13 +15,13 @@ distintas configuraciones de monitores (perfiles).
 Probado en el portátil: CachyOS, Hyprland 0.56.2 (config en **Lua**), Noctalia 5.1.0.
 Sin plugins: todo es Lua puro en `~/.config/hypr/config/`.
 
-### Qué resuelve
+### 1.1 Qué resuelve
 
 - El número que ves en la barra es el que pulsas: `Super + 2` va al workspace 2, esté en el monitor que esté (el foco salta a ese monitor).
 - Workspace 1 vive en el monitor 1, el 2 en el monitor 2 y el 3 en el monitor 3 (escritorio). Siempre existen, aunque estén vacíos; el 3 solo cuando la TV está extendida (ver la nota sobre el workspace 3 más abajo).
 - Cualquier otro workspace (4, 5…) se crea **en el monitor donde estás** al saltar a él. Antes `Super + Shift + N` daba error si no existía.
 
-### Atajos
+### 1.2 Atajos
 
 | Atajo | Acción |
 |---|---|
@@ -37,15 +39,15 @@ Sin plugins: todo es Lua puro en `~/.config/hypr/config/`.
 
 Cambio respecto a antes: `Super + [1-3]` ya no enfoca monitores (ahora va a los workspaces 1–3); enfocar monitor es `Super + Alt + [1-3]`.
 
-### Cómo funciona
+### 1.3 Cómo funciona
 
 Es el modelo normal de Hyprland (IDs globales), con dos reglas: el workspace k queda atado al monitor k y es persistente. El resto no tiene regla, así que Hyprland lo crea en el monitor enfocado y lo borra al quedar vacío. `Super + Ctrl + ↓` busca el primer workspace por encima de los fijos que esté vacío y no pertenezca a otro monitor. Cada barra de Noctalia muestra solo los workspaces de su monitor.
 
-### Instalación (portátil o escritorio)
+### 1.4 Instalación (portátil o escritorio)
 
 Haz un respaldo primero: `cp -r ~/.config/hypr ~/.config/hypr-backup`
 
-#### 1.1. `~/.config/hypr/config/variables.lua`
+#### 1.4.1 `~/.config/hypr/config/variables.lua`
 
 Solo cambia la sección de monitores y workspaces. En el **equipo de escritorio pon los nombres de tus 3 salidas**, de izquierda a derecha (mira `hyprctl monitors`):
 
@@ -60,7 +62,7 @@ NUM_WPM = 10 -- workspaces alcanzables con Super+[1-0] (máx. 10)
 
 En el portátil: `MONITOR1 = "eDP-1"`, `MONITOR2 = "HDMI-A-1"`, `MONITOR3 = ""`.
 
-#### 1.2. `~/.config/hypr/config/workspaces.lua` (reemplazar todo el archivo)
+#### 1.4.2 `~/.config/hypr/config/workspaces.lua` (reemplazar todo el archivo)
 
 ```lua
 -- Global workspaces (HyDE style): the number you see in the bar is the number you press.
@@ -120,7 +122,7 @@ function WS_SEND_FREE(follow)
 end
 ```
 
-#### 1.3. `~/.config/hypr/hyprland.lua`
+#### 1.4.3 `~/.config/hypr/hyprland.lua`
 
 `monitors` debe cargarse **antes** que `workspaces` (workspaces lee `MONITOR3_ACTIVE`, ver sección 2), y `workspaces` antes que `binds` (binds usa `MONITORS` y las funciones `WS_*`):
 
@@ -130,7 +132,7 @@ require("config.workspaces")
 require("config.binds")
 ```
 
-#### 1.4. `~/.config/hypr/config/binds.lua`
+#### 1.4.4 `~/.config/hypr/config/binds.lua`
 
 Borra de este archivo:
 - Los binds `SHIFT + 1/2/3` con `window.move({ monitor = MONITORn })`.
@@ -160,11 +162,11 @@ end
 
 Deja intactos los binds de rueda del ratón, `Super + Ctrl + Shift + ←/→` y el scratchpad.
 
-#### 1.5. Noctalia
+#### 1.4.5 Noctalia
 
 No hace falta cambiar nada: cada barra ya muestra solo los workspaces de su monitor (`show_all_outputs` es `false` por defecto). Si antes agregaste `label_source = "name"` en `[widget.workspaces]`, quítalo.
 
-#### 1.6. Aplicar y verificar
+#### 1.4.6 Aplicar y verificar
 
 ```bash
 hyprctl reload
@@ -174,7 +176,7 @@ hyprctl workspacerules | grep -c "Workspace rule"   # 1 por monitor (2 con 2 mon
 
 Prueba: `Super + 2` desde el monitor 1 debe saltar al monitor 2; `Super + 4` debe crear el 4 en el monitor donde estés; `Super + Ctrl + ↓` debe llevarte a uno vacío.
 
-### Notas y problemas conocidos (workspaces)
+### 1.5 Notas y problemas conocidos (workspaces)
 
 - **Migración:** si vienes de la versión anterior de esta guía (IDs por monitor), ventanas en workspaces con IDs viejos (p. ej. 11) quedan sueltas; muévelas con `Super + Shift + [N]`.
 - **No hay "workspace anterior" (back-and-forth).** `focus({ workspace = "previous" })` movió un workspace al monitor equivocado en mis pruebas, así que no lo incluí.
@@ -227,7 +229,7 @@ Resumen de cómo funciona (detalle completo en el README del plugin):
   equivalente en vivo es `hyprctl eval` ejecutando `hl.monitor({...})`, la
   misma función que usa `monitors.lua`.
 
-### Limitación conocida
+### 2.1 Limitación conocida
 
 Los nombres de salida (`DP-2`, `DP-3`, `HDMI-A-1` en mi caso) vienen de
 `config/variables.lua` (`MONITOR1`–`MONITOR3`); en otra máquina, con otro

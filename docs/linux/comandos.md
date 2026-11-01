@@ -10,15 +10,13 @@ Referencia organizada por tarea (no alfabética), para encontrar el comando seg�
 se quiere lograr, aunque no se recuerde su nombre. El menú lateral de esta página sigue
 estas mismas secciones.
 
----
-
 ## 1. Navegar y explorar
 
-### `pwd`
+### 1.1 `pwd`
 
 Muestra la ruta completa del directorio en el que se está parado (*print working directory*).
 
-### `cd`
+### 1.2 `cd`
 
 Cambia de directorio.
 
@@ -30,7 +28,7 @@ cd -         # vuelve al directorio anterior
 cd ~         # va al home del usuario
 ```
 
-### `ls`
+### 1.3 `ls`
 
 Lista el contenido de un directorio.
 
@@ -47,7 +45,7 @@ ls [opciones] [ruta]
 
 Combinación típica: `ls -lah`.
 
-### `lc` (alias de `colorls`)
+### 1.4 `lc` (alias de `colorls`)
 
 `colorls` es un reemplazo de `ls` con iconos y colores por tipo de archivo. En este sistema
 `lc` es un alias definido en la configuración de zsh:
@@ -67,7 +65,7 @@ Otras opciones útiles de `colorls` que no están en el alias:
 - `--gs` / `--git-status`: muestra el estado de git de cada archivo.
 - `--tree=2`: vista de árbol hasta el nivel de profundidad indicado.
 
-### `tree`
+### 1.5 `tree`
 
 Muestra la estructura de carpetas y archivos de una ubicación en forma de árbol.
 
@@ -85,7 +83,7 @@ tree [opciones] [ruta]
 tree -L 2
 ```
 
-### `broot`
+### 1.6 `broot`
 
 Navegador de árbol de archivos interactivo (no solo imprime el árbol, se navega dentro de él):
 se escribe para filtrar con búsqueda difusa, se entra a carpetas y se puede incluso hacer
@@ -107,11 +105,9 @@ br [opciones] [ruta]
 - `--max-depth <n>`: limita la profundidad inicial del árbol (equivalente al `-L` de `tree`).
 - `-f` / `--only-folders`: muestra solo carpetas.
 
----
-
 ## 2. Archivos y directorios
 
-### `mkdir`
+### 2.1 `mkdir`
 
 Crea directorios.
 
@@ -121,11 +117,11 @@ Crea directorios.
 mkdir -p proyecto/datos/crudos
 ```
 
-### `touch`
+### 2.2 `touch`
 
 Crea un archivo vacío si no existe, o actualiza su fecha de modificación si ya existe.
 
-### `cp`
+### 2.3 `cp`
 
 Copia archivos o directorios.
 
@@ -144,11 +140,11 @@ Las llaves `{}` permiten expandir varios nombres en una sola llamada:
 cp -r ~/Downloads/{carpeta_1,carpeta_2} /destino/
 ```
 
-### `mv`
+### 2.4 `mv`
 
 Mueve o renombra archivos y directorios (misma sintaxis que `cp`, pero sin dejar copia en el origen).
 
-### `rm`
+### 2.5 `rm`
 
 Elimina archivos o directorios. **No manda nada a una papelera**, el borrado es definitivo.
 
@@ -158,7 +154,7 @@ Elimina archivos o directorios. **No manda nada a una papelera**, el borrado es 
 
 `rm -rf` es la combinación más peligrosa del sistema: no verifica nada antes de borrar.
 
-### `ln`
+### 2.6 `ln`
 
 Crea enlaces entre archivos.
 
@@ -168,22 +164,20 @@ Crea enlaces entre archivos.
 ln -s /ruta/real /ruta/enlace
 ```
 
----
-
 ## 3. Ver contenido de archivos
 
-### `cat`
+### 3.1 `cat`
 
 Muestra el contenido completo de un archivo en la terminal. Útil para archivos cortos o para
 concatenar varios archivos.
 
-### `less`
+### 3.2 `less`
 
 Muestra el contenido de un archivo página por página, sin cargarlo todo en memoria. Mejor que
 `cat` para archivos largos. Flechas o `Page Up`/`Page Down` para moverse, `/texto` para buscar,
 `q` para salir.
 
-### `head` / `tail`
+### 3.3 `head` / `tail`
 
 Muestran el principio (`head`) o el final (`tail`) de un archivo.
 
@@ -191,7 +185,7 @@ Muestran el principio (`head`) o el final (`tail`) de un archivo.
 - `-f` (solo `tail`): sigue el archivo en tiempo real a medida que crece, muy usado para ver logs
   (`tail -f /var/log/algo.log`).
 
-### `wc`
+### 3.4 `wc`
 
 Cuenta líneas, palabras o caracteres de un archivo (*word count*).
 
@@ -199,11 +193,9 @@ Cuenta líneas, palabras o caracteres de un archivo (*word count*).
 - `-w`: solo cuenta palabras.
 - `-c`: solo cuenta bytes.
 
----
-
 ## 4. Buscar archivos y comandos
 
-### `find`
+### 4.1 `find`
 
 Busca archivos y directorios recorriendo el árbol de carpetas, filtrando por nombre, tipo,
 tamaño o fecha.
@@ -224,13 +216,13 @@ find <ruta> [opciones]
 find . -iname "*.tmp" -mtime +30 -exec rm {} \;
 ```
 
-### `locate`
+### 4.2 `locate`
 
 Busca archivos por nombre usando un índice precalculado del sistema de archivos, mucho más
 rápido que `find` pero puede estar desactualizado si no se ha regenerado el índice reciente
 (`sudo updatedb` lo regenera).
 
-### `which`
+### 4.3 `which`
 
 Muestra la ruta completa del ejecutable que se usaría al invocar un comando.
 
@@ -238,20 +230,18 @@ Muestra la ruta completa del ejecutable que se usaría al invocar un comando.
 which python3
 ```
 
-### `whereis`
+### 4.4 `whereis`
 
 Similar a `which`, pero además busca el binario, su código fuente y su página de manual.
 
-### `type`
+### 4.5 `type`
 
 Indica si un nombre es un comando interno de la shell (*builtin*), un alias, una función o un
 ejecutable externo, y en este último caso su ruta.
 
----
-
 ## 5. Buscar texto dentro de archivos
 
-### `grep`
+### 5.1 `grep`
 
 Busca líneas que coincidan con un patrón de texto dentro de uno o varios archivos.
 
@@ -271,11 +261,9 @@ grep [opciones] "patrón" archivo
 grep -rni "error" /var/log/
 ```
 
----
-
 ## 6. Permisos, dueños y privilegios
 
-### `chmod`
+### 6.1 `chmod`
 
 Cambia los permisos de lectura, escritura y ejecución de un archivo o directorio.
 
@@ -286,7 +274,7 @@ Cambia los permisos de lectura, escritura y ejecución de un archivo o directori
   leen. `chmod 755 archivo` = dueño lee, escribe y ejecuta, grupo y otros leen y ejecutan.
 - `-R`: aplica el cambio recursivamente a un directorio y su contenido.
 
-### `chown`
+### 6.2 `chown`
 
 Cambia el dueño (y opcionalmente el grupo) de un archivo o directorio.
 
@@ -296,22 +284,103 @@ chown usuario:grupo archivo
 
 - `-R`: aplica el cambio recursivamente.
 
-### `sudo`
+### 6.3 `sudo`
 
 Ejecuta un único comando con privilegios de administrador (root), pidiendo la contraseña del
 usuario actual (si pertenece al grupo con permiso de `sudo`).
 
-### `su`
+### 6.4 `su`
 
 Abre una sesión como otro usuario (por defecto, root), pidiendo la contraseña de **ese**
 usuario, no la propia. `su -` además carga el entorno completo de ese usuario (como si hubiera
 iniciado sesión directamente).
 
----
+## 7. Usuarios y grupos
 
-## 7. Procesos y servicios
+Los usuarios de RStudio Server son usuarios normales del sistema, así que se crean y eliminan
+con estos mismos comandos.
 
-### `ps`
+### 7.1 Ver usuarios
+
+```bash
+# Usuarios "humanos" (UID ≥ 1000), sin las cuentas de sistema
+awk -F: '$3 >= 1000 && $3 < 65534 {print $1, $6, $7}' /etc/passwd
+
+# Todos los usuarios (incluye cuentas de sistema)
+getent passwd
+
+# Quién tiene una sesión abierta ahora
+who
+
+# Últimos inicios de sesión
+last -n 20
+```
+
+### 7.2 `id` / `groups`
+
+Muestran el UID, el grupo principal y los grupos de un usuario (sin argumento, del usuario actual).
+
+```bash
+id nombre_usuario
+groups nombre_usuario
+```
+
+### 7.3 Crear un usuario
+
+```bash
+sudo useradd -m -s /bin/bash nombre_usuario   # -m crea /home/nombre_usuario, -s define el shell
+sudo passwd nombre_usuario                     # asignar contraseña
+```
+
+- Con `-m` no hace falta crear la carpeta personal a mano (`mkdir` + `chown`): `useradd` la crea
+  con el dueño correcto y copia los archivos base de `/etc/skel`.
+- Sin `-s /bin/bash`, en Ubuntu el usuario queda con `/bin/sh`, que es más limitado.
+- En Ubuntu también existe `sudo adduser nombre_usuario`, que hace lo mismo de forma
+  interactiva (pide contraseña y datos opcionales). En CachyOS/Arch no existe; usar `useradd`.
+
+### 7.4 Cambiar o restablecer una contraseña
+
+```bash
+sudo passwd nombre_usuario      # asignar una nueva (no requiere conocer la anterior)
+sudo passwd -e nombre_usuario   # obligar a cambiarla en el próximo inicio de sesión
+passwd                          # cambiar la propia
+```
+
+### 7.5 Dar o quitar permisos de administrador
+
+```bash
+# Agregar a un grupo (-a es imprescindible: sin él, reemplaza todos sus grupos)
+sudo usermod -aG sudo nombre_usuario    # Ubuntu
+sudo usermod -aG wheel nombre_usuario   # CachyOS/Arch
+
+# Quitar de un grupo
+sudo gpasswd -d nombre_usuario sudo
+```
+
+El cambio de grupos se aplica en el siguiente inicio de sesión del usuario.
+
+### 7.6 Bloquear o desbloquear una cuenta
+
+Impide iniciar sesión con contraseña sin borrar el usuario ni sus archivos:
+
+```bash
+sudo usermod -L nombre_usuario   # bloquear
+sudo usermod -U nombre_usuario   # desbloquear
+```
+
+### 7.7 Eliminar un usuario
+
+```bash
+sudo userdel -r nombre_usuario   # -r borra también /home/nombre_usuario y su correo
+```
+
+- Sin `-r`, la carpeta personal se conserva (útil si hay que rescatar archivos antes).
+- Si el usuario tiene procesos activos (por ejemplo, una sesión abierta de RStudio), `userdel`
+  falla; cerrarlos primero con `sudo pkill -u nombre_usuario`.
+
+## 8. Procesos y servicios
+
+### 8.1 `ps`
 
 Muestra los procesos en ejecución.
 
@@ -322,13 +391,13 @@ ps aux
 `aux` es la combinación más usada: todos los procesos (`a`), de todos los usuarios (`x`), con
 información detallada (`u`).
 
-### `top` / `htop`
+### 8.2 `top` / `htop`
 
 Muestran los procesos en ejecución de forma interactiva, actualizándose en tiempo real, con uso
 de CPU y memoria. `htop` (si está instalado) tiene una interfaz más clara y permite ordenar y
 matar procesos con el mouse o teclas de flecha.
 
-### `kill` / `killall`
+### 8.3 `kill` / `killall`
 
 Envían una señal a un proceso, normalmente para terminarlo.
 
@@ -340,7 +409,7 @@ killall nombre_del_proceso
 - `-9`: señal `SIGKILL`, termina el proceso de forma inmediata y forzada (sin darle oportunidad
   de cerrar limpiamente). Usar solo si el proceso no responde a un `kill` normal.
 
-### `systemctl`
+### 8.4 `systemctl`
 
 Controla servicios del sistema (`systemd`).
 
@@ -355,11 +424,9 @@ sudo systemctl enable --now nombre.service
 - `enable`: hace que el servicio arranque automáticamente al iniciar el sistema.
 - `--now`: combinado con `enable` o `disable`, aplica el cambio también de inmediato.
 
----
+## 9. Comprimir y descomprimir
 
-## 8. Comprimir y descomprimir
-
-### `tar`
+### 9.1 `tar`
 
 Empaqueta (y opcionalmente comprime) archivos y directorios en un solo archivo `.tar`.
 
@@ -376,7 +443,7 @@ tar -tf archivo.tar.gz               # listar contenido sin extraer
 - `-f`: indica el nombre del archivo (va justo antes del nombre).
 - `-v`: modo verboso.
 
-### `zip` / `unzip`
+### 9.2 `zip` / `unzip`
 
 Comprimen y descomprimen archivos en formato `.zip`, el más compatible con Windows/macOS.
 
@@ -385,9 +452,7 @@ zip -r archivo.zip carpeta/
 unzip archivo.zip
 ```
 
----
-
-## 9. Redirección y tuberías
+## 10. Redirección y tuberías
 
 No son comandos sino operadores de la shell para encadenar o redirigir la salida de los
 comandos.
@@ -400,24 +465,20 @@ comandos.
   (descriptor `1`), útil para guardar todo en un mismo log.
 - `&&`: ejecuta el siguiente comando solo si el anterior terminó sin error.
 
----
+## 11. Documentación de comandos
 
-## 10. Documentación de comandos
-
-### `man`
+### 11.1 `man`
 
 Muestra el manual completo de un comando (`man comando`). `q` para salir.
 
-### `--help`
+### 11.2 `--help`
 
 La mayoría de comandos aceptan `--help` (o `-h`) para un resumen rápido de sus opciones, más
 corto que el manual completo.
 
----
+## 12. Monitores y pantallas
 
-## 11. Monitores y pantallas
-
-### `xrandr`
+### 12.1 `xrandr`
 
 Lista y configura las pantallas conectadas (resolución, posición, orientación). Es una
 herramienta de X11, así que en una sesión Wayland (como esta) corre contra Xwayland y muestra
@@ -440,7 +501,7 @@ se aplican al compositor real (solo a Xwayland); conviene usar la herramienta pr
 compositor (p.ej. `wlr-randr`, o la configuración de Hyprland/niri) para configurar pantallas
 de la sesión gráfica real.
 
-### `hwinfo --monitor`
+### 12.2 `hwinfo --monitor`
 
 Muestra información detallada de los monitores detectados vía EDID (el identificador que
 envía cada pantalla): marca, modelo, tamaño físico, año de fabricación y todas las

@@ -1,5 +1,5 @@
 ---
-icon: simple/archlinux
+icon: custom/cachyos
 ---
 
 # Gestión de paquetes: `pacman` (CachyOS)

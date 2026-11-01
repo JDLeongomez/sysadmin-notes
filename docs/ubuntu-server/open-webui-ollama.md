@@ -1,14 +1,12 @@
 ---
-icon: simple/ubuntu
+icon: simple/ollama
 ---
 
 # Open WebUI & Ollama
 
-![Ubuntu](../assets/logos/ubuntu.svg){ width="64" align="right" }
+![Ollama](../assets/logos/ollama.svg){ width="64" align="right" }
 
----
-
-## Open WebUI
+## 1. Open WebUI
 
 ```bash
 # Levantar / actualizar desde Docker Compose
@@ -20,9 +18,7 @@ docker compose up -d
 docker ps
 ```
 
----
-
-## Ollama
+## 2. Ollama
 
 ```bash
 # Actualizar Ollama

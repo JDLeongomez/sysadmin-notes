@@ -1,24 +1,24 @@
 ---
-icon: simple/archlinux
+icon: simple/acer
 ---
 
-# Acer Aspire 7 (A715-74G-75UE) — Problemas de arranque en CachyOS
+# Acer Aspire 7 (A715-74G-75UE): problemas de arranque en CachyOS
 
-![CachyOS](../assets/logos/cachyos.svg){ width="64" align="right" }
+![Acer](../assets/logos/acer.svg){ width="64" align="right" }
 
-## Síntomas
+## 1. Síntomas
 
 - Pantalla con candado y mensaje **"Security Boot Fail"** al encender.
 - Al deshabilitar Secure Boot, el sistema se congela en **"Loading initial ramdisk"**.
 
-## Causa raíz
+## 2. Causa raíz
 
 La BIOS tenía dos problemas combinados:
 
 1. **Secure Boot activado** (probablemente reactivado por una actualización de BIOS).
 2. **SATA Mode en `RST Premium with Optane`** en lugar de `AHCI`, lo que impide que Linux detecte los discos NVMe.
 
-## Solución paso a paso
+## 3. Solución paso a paso
 
 1. Entrar a la BIOS pulsando `F2` al arrancar.
    - Contraseña de la BIOS: `1234`
@@ -27,6 +27,6 @@ La BIOS tenía dos problemas combinados:
 4. Cambiar **SATA Mode** de `RST Premium with Optane` → `AHCI`.
 5. Guardar con `F10` y reiniciar.
 
-## Notas adicionales
+## 4. Notas adicionales
 
 - El menú **GRUB** se activa manteniendo `Shift` o pulsando `Esc` durante el arranque.
